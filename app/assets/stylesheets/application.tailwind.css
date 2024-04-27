@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .flash-message {
+    @apply fixed top-0 left-1/2 transform -translate-x-1/2 px-4 py-3 rounded-full;
+    z-index: 99;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .flash-message.success {
+    @apply bg-green-500 text-white;
+  }
+
+  .flash-message.error {
+    @apply bg-red-500 text-white;
+  }
+
+  .flash-message.notice {
+    @apply bg-blue-500 text-white;
+  }
+}
