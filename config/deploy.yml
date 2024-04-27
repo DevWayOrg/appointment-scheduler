@@ -6,7 +6,9 @@ image: vinibispo/appointment-scheduler-fake
 
 # Deploy to these servers.
 servers:
-  - 104.236.77.16
+  web:
+    hosts:
+      - 104.131.185.141
 
 # Credentials for your image host.
 registry:
@@ -30,14 +32,11 @@ env:
 #   user: app
 
 # Configure builder setup.
-# builder:
-#   args:
-#     RUBY_VERSION: 3.2.0
-#   secrets:
-#     - GITHUB_TOKEN
-#   remote:
-#     arch: amd64
-#     host: ssh://app@192.168.0.1
+builder:
+  cache:
+    type: registry
+  remote:
+    arch: amd64
 
 # Use accessory services (secrets come from .env).
 # accessories:
