@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
 
     case User::SignInWithGoogle.call(email:, name:)
     in Solid::Success(user:)
-      session[:user_id] = user.id
+      sign_in(user)
       redirect_to dashboard_path
     in Solid::Failure(input:)
       flash[:error] = input.errors[:base].join(', ')
