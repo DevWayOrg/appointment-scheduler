@@ -1,0 +1,10 @@
+<div class="flex justify-center items-center h-screen bg-gray-100">
+  <div class="text-center space-y-4">
+    <h1 class="text-3xl font-bold text-gray-800">Welcome!</h1>
+    <p class="text-gray-600">Sign in to continue using our platform.</p>
+    <%= link_to "/auth/google_oauth2", class: "inline-flex items-center px-4 py-2 bg-white shadow-md rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500", method: :post do %>
+      <%= render 'application/icons/google' %>
+      <span class="text-sm font-medium text-gray-700">Login with Google</span>
+    <% end %>
+  </div>
+</div>

@@ -2,13 +2,13 @@ require 'application_system_test_case'
 
 class ScheduleAppointmentsTest < ApplicationSystemTestCase
   test 'visiting the dashboard' do
-    visit root_path
+    visit dashboard_path
 
     assert_selector 'h1', text: 'Dashboard'
   end
 
   test 'scheduling an appointment' do
-    visit root_path
+    visit dashboard_path
 
     fill_in 'Name', with: 'John Doe'
     fill_in 'Reason', with: 'Check-up'
@@ -22,7 +22,7 @@ class ScheduleAppointmentsTest < ApplicationSystemTestCase
   end
 
   test 'not scheduling an appointment when date is less than today' do
-    visit root_path
+    visit dashboard_path
 
     fill_in 'Name', with: 'John Doe'
     fill_in 'Reason', with: 'Check-up'
@@ -35,7 +35,7 @@ class ScheduleAppointmentsTest < ApplicationSystemTestCase
   end
 
   test 'not scheduling an appointment when date is today and time is less than current time' do
-    visit root_path
+    visit dashboard_path
 
     fill_in 'Name', with: 'John Doe'
     fill_in 'Reason', with: 'Check-up'
