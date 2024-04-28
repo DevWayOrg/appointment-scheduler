@@ -12,6 +12,8 @@ class ScheduleAppointmentsTest < ApplicationSystemTestCase
     click_on 'Login with Google'
 
     assert current_path, dashboard_path
+
+    sleep 1
   end
 
   test 'visiting the dashboard without signing in redirects to register page' do

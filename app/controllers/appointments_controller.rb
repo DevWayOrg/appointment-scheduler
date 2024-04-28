@@ -1,6 +1,7 @@
 class AppointmentsController < ApplicationController
   def create
     appointment_params = params.require(:appointment).permit(:time, :date, :name, :reason)
+    appointment_params.merge!(user: current_user)
 
     case Appointment::Schedule.call(appointment_params)
       in Solid::Success(appointment: _)

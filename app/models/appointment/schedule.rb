@@ -1,18 +1,21 @@
 module Appointment
   class Schedule < Solid::Process
+    deps do
+      attribute :today, default: DateTime.now
+      attribute :repository, default: Repository
+    end
+
     input do
       attribute :name, :string
       attribute :reason, :string
       attribute :date, :date
       attribute :time, :time
+      attribute :user
 
       validates :name, :reason, :date, :time, presence: true
+      validates :user, instance_of: User::Repository
     end
 
-    deps do
-      attribute :today, default: DateTime.now
-      attribute :repository, default: Repository
-    end
 
     def call(attributes)
       rollback_on_failure {
@@ -52,9 +55,10 @@ module Appointment
       false
     end
 
-    def create_an_appointment(name:, reason:, time:, date:, **)
+    def create_an_appointment(name:, reason:, time:, date:, user:, **)
       date_field = DateTime.new(date.year, date.month, date.day, time.hour, time.min)
-      input = { name:, reason:, date: date_field }
+      user_id = user.id
+      input = { name:, reason:, date: date_field, user_id: }
       output = deps.repository.insert(input)
       Continue(appointment: output)
     end
