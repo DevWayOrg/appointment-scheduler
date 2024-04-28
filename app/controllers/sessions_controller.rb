@@ -1,6 +1,5 @@
 class SessionsController < ApplicationController
-  def new
-  end
+  def new; end
 
   def create
     user_info = request.env['omniauth.auth']
@@ -11,7 +10,7 @@ class SessionsController < ApplicationController
     in Solid::Success(user:)
       session[:user_id] = user.id
       redirect_to dashboard_path
-    in Failure(input:)
+    in Solid::Failure(input:)
       flash[:error] = input.errors[:base].join(', ')
       redirect_to root_path
     end
