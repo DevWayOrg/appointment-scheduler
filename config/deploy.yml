@@ -26,6 +26,8 @@ env:
   secret:
     - RAILS_MASTER_KEY
     - DATABASE_URL
+    - GOOGLE_CLIENT_ID
+    - GOOGLE_CLIENT_SECRET
 
 # Use a different ssh user than root
 # ssh:
