@@ -3,6 +3,7 @@ module Appointment
     deps do
       attribute :today, default: DateTime.now
       attribute :repository, default: Repository
+      attribute :google_calendar_worker, default: SendToGoogleCalendar
     end
 
     input do
@@ -22,6 +23,7 @@ module Appointment
         Given(attributes)
           .and_then(:check_if_appointment_is_more_or_equal_than_now)
           .and_then(:create_an_appointment)
+          .and_then(:send_an_appointment_to_google_calendar)
       }
     end
 
@@ -60,7 +62,13 @@ module Appointment
       user_id = user.id
       input = { name:, reason:, date: date_field, user_id: }
       output = deps.repository.insert(input)
-      Continue(appointment: output)
+      appointment = output.rows[0][0]
+      Continue(appointment:, **)
+    end
+
+    def send_an_appointment_to_google_calendar(appointment:,**)
+      deps.google_calendar_worker.perform_later(appointment)
+      Success(:scheduled_appointment, appointment:)
     end
   end
 end

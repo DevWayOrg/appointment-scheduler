@@ -11,7 +11,15 @@ class LoginTest < ApplicationSystemTestCase
     OmniAuth.config.test_mode = true
     name = 'John Doe'
     email = 'john@doe.com'
-    OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new(info: { name:, email: })
+    auth_input = {
+      info: { name:, email: },
+      credentials: {
+        token: SecureRandom.hex(5),
+        refresh_token: SecureRandom.hex(5),
+        expires_at: Time.zone.now.to_i + 1.week
+      }
+    }
+    OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new(auth_input)
 
     visit root_path
 
@@ -23,7 +31,8 @@ class LoginTest < ApplicationSystemTestCase
   test 'login with google is broken' do
     OmniAuth.config.test_mode = true
     OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new(
-      info: { name: '', email: '' }
+      info: { name: '', email: '' },
+      credentials: { token: '', refresh_token: '', expires_at: Time.zone.now.to_i }
     )
 
     visit root_path

@@ -38,6 +38,8 @@ gem 'omniauth-rails_csrf_protection'
 gem 'solid_queue'
 gem "mission_control-jobs"
 
+gem 'google-api-client', require: 'google/apis/calendar_v3'
+
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 

@@ -4,7 +4,15 @@ class ScheduleAppointmentsTest < ApplicationSystemTestCase
   setup do
     OmniAuth.config.test_mode = true
     user = User::Repository.create(name: 'John Doe', email: 'john@doe.com')
-    OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new(info: { name: user.name, email: user.email })
+    now = Time.zone.now.to_i + 1.week
+    auth_input = {
+      info: { name: user.name, email: user.email },
+      credentials: {
+        token: SecureRandom.hex(5),
+        refresh_token: SecureRandom.hex(5), expires_at: now
+      }
+    }
+    OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new(auth_input)
   end
 
   def sign_in
