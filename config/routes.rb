@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 
   resources :appointments, only: %i[create]
 
+  mount MissionControl::Jobs::Engine, at: '/jobs' if Rails.env.development?
+
   # Defines the root path route ("/")
   # root "posts#index"
 end
