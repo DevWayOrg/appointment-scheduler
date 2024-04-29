@@ -10,9 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_28_214756) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_29_001749) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  # Custom types defined in this database.
+  # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "social_provider", ["google", "outlook"]
 
   create_table "appointments", force: :cascade do |t|
     t.string "name"
@@ -125,6 +129,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_28_214756) do
     t.index ["expires_at"], name: "index_solid_queue_semaphores_on_expires_at"
     t.index ["key", "value"], name: "index_solid_queue_semaphores_on_key_and_value"
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
+  end
+
+  create_table "tokens", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "access_token"
+    t.string "refresh_token"
+    t.integer "expires_at"
+    t.enum "provider", default: "google", null: false, enum_type: "social_provider"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["expires_at"], name: "index_tokens_on_expires_at"
+    t.index ["provider"], name: "index_tokens_on_provider"
+    t.index ["user_id"], name: "index_tokens_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
