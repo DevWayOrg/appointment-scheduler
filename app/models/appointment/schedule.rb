@@ -1,7 +1,7 @@
 module Appointment
   class Schedule < Solid::Process
     deps do
-      attribute :today, default: DateTime.now
+      attribute :today, default: Time.zone.now
       attribute :repository, default: Repository
       attribute :google_calendar_worker, default: SendToGoogleCalendar
     end
@@ -30,37 +30,39 @@ module Appointment
     private
 
     def check_if_appointment_is_more_or_equal_than_now(date:, time:, **)
-      if before_today?(date:)
+      if date.to_date < deps.today.to_date
         input.errors.add(:date, message: 'must be greater than or equal to today')
         return Failure(:invalid_input, input:)
       end
 
-      if before_or_now?(date:, time:)
+      datetime = DateTime.new(date.year, date.month, date.day, time.hour, time.min, 0, Time.zone.formatted_offset)
+
+      if before_or_now?(datetime:)
         input.errors.add(:time, message: 'must be greater than now')
         return Failure(:invalid_input, input:)
       end
 
-      Continue(date:, time:, **)
+
+      Continue(datetime:, **)
     end
 
-    def before_today?(date:, **)
-      return true if date.day < deps.today.day && date.month <= deps.today.month && date.year <= deps.today.year
+    def before_or_now?(datetime:)
+      return false if datetime.to_date > deps.today.to_date
+
+      # I'll need to use a workaround, let's check if it's going to work
+
+      now = Time.zone.now
+
+      return true if datetime.hour < now.hour
+
+      return true if datetime.hour == now.hour && datetime.min < now.min
 
       false
     end
 
-    def before_or_now?(date:, time:)
-      return false if date.day > deps.today.day && date.month >= deps.today.month && date.year >= deps.today.year
-
-      return true if time.hour <= deps.today.hour && time.min <= deps.today.min
-
-      false
-    end
-
-    def create_an_appointment(name:, reason:, time:, date:, user:, **)
-      date_field = DateTime.new(date.year, date.month, date.day, time.hour, time.min)
+    def create_an_appointment(name:, reason:, datetime:, user:, **)
       user_id = user.id
-      input = { name:, reason:, date: date_field, user_id: }
+      input = { name:, reason:, date: datetime, user_id: }
       output = deps.repository.insert(input)
       appointment = output.rows[0][0]
       Continue(appointment:, **)

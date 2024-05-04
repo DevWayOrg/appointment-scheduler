@@ -47,12 +47,34 @@ class ScheduleAppointmentsTest < ApplicationSystemTestCase
     fill_in 'Name', with: 'John Doe'
     fill_in 'Reason', with: 'Check-up'
     fill_in 'Date', with: Date.today
-    time = Time.new + 1.hour
+    time = Time.current + 1.hour
     fill_in 'Time', with: time.strftime('%I:%M%p')
 
     click_on 'Schedule'
 
     assert_selector 'p', text: 'Appointment scheduled successfully'
+  end
+
+  test 'scheduling an appointment when it\'s 01PM' do
+    travel_to (Time.current.beginning_of_day + 12.hours) do
+      sign_in
+
+      visit dashboard_path
+
+      fill_in 'Name', with: 'John Doe'
+      fill_in 'Reason', with: 'Check-up'
+      fill_in 'Date', with: Date.today
+      time = '01:00PM'
+      fill_in 'Time', with: time
+
+      click_on 'Schedule'
+
+      assert_selector 'p', text: 'Appointment scheduled successfully'
+
+      appointment = Appointment::Repository.last
+
+    assert_equal appointment.date.strftime('%I:%M%p'),  '01:00PM'
+    end
   end
 
   test 'not scheduling an appointment when date is less than today' do
@@ -78,10 +100,44 @@ class ScheduleAppointmentsTest < ApplicationSystemTestCase
     fill_in 'Name', with: 'John Doe'
     fill_in 'Reason', with: 'Check-up'
     fill_in 'Date', with: Date.today
-    fill_in 'Time', with: (Time.new - 1.hour).strftime('%I:%M%p')
+    fill_in 'Time', with: (Time.current - 1.hour).strftime('%I:%M%p')
 
     click_on 'Schedule'
 
     assert_selector 'p', text: 'Time must be greater than now'
+  end
+
+  test 'not scheduling an appointment when date is today and time is less than current time and current time is 2AM' do
+    travel_to(Time.current.beginning_of_day + 2.hours) do
+      sign_in
+
+      visit dashboard_path
+
+      fill_in 'Name', with: 'John Doe'
+      fill_in 'Reason', with: 'Check-up'
+      fill_in 'Date', with: Date.today
+      fill_in 'Time', with: (Time.current - 1.hour).strftime('%I:%M%p')
+
+      click_on 'Schedule'
+
+      assert_selector 'p', text: 'Time must be greater than now'
+    end
+  end
+
+  test 'not scheduling an appointment when date is today and time is less than current time and current time is almost midnight' do
+    travel_to(Time.current.end_of_day) do
+      sign_in
+
+      visit dashboard_path
+
+      fill_in 'Name', with: 'John Doe'
+      fill_in 'Reason', with: 'Check-up'
+      fill_in 'Date', with: Date.today
+      fill_in 'Time', with: (Time.current - 1.hour).strftime('%I:%M%p')
+
+      click_on 'Schedule'
+
+      assert_selector 'p', text: 'Time must be greater than now'
+    end
   end
 end
