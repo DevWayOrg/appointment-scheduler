@@ -8,7 +8,12 @@ image: vinibispo/appointment-scheduler-fake
 servers:
   web:
     hosts:
-      - 104.131.185.141
+      - 68.183.156.88
+  jobs:
+    hosts:
+      - 159.203.68.228
+    cmd: bundle exec rake solid_queue:start
+
 
 # Credentials for your image host.
 registry:
