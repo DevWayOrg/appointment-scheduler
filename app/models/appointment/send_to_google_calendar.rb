@@ -5,9 +5,11 @@ module Appointment
 
       token = Token::Repository.fetch_by(provider: 'google', user_id: appointment.user_id)
 
+
       service = Google::Apis::CalendarV3::CalendarService.new
 
       service.authorization = token.google_secret.to_authorization
+
 
       if token.expired?
         new_access_token = service.authorization.refresh!
@@ -15,9 +17,8 @@ module Appointment
 
         now = Time.zone.now.to_i
         token.expires_at = new_access_token['expires_in'].to_i + now
-        Token::Repository.find_by(
-          user_id: token.user_id, provider: 'google'
-        ).upsert(token.to_h)
+
+        Token::Repository.upsert(token.to_h)
       end
 
       service.insert_event('primary', event(appointment:))
