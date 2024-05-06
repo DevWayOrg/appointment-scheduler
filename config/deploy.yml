@@ -2,7 +2,7 @@
 service: my-app
 
 # Name of the container image.
-image: vinibispo/appointment-scheduler-fake
+image: vinibispo/appointment-scheduler
 
 # Deploy to these servers.
 servers:
