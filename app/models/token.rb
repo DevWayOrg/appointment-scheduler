@@ -15,13 +15,13 @@ class Token
   end
 
   def google_secret
-    require 'google/api_client/client_secrets'
+    require "google/api_client/client_secrets"
     secret = {
-      'web' => {
+      "web" => {
         "access_token": access_token,
         "refresh_token": refresh_token,
-        "client_id": ENV.fetch('GOOGLE_CLIENT_ID', ''),
-        'client_secret' => ENV.fetch('GOOGLE_CLIENT_SECRET', '')
+        "client_id": ENV.fetch("GOOGLE_CLIENT_ID", ""),
+        "client_secret" => ENV.fetch("GOOGLE_CLIENT_SECRET", "")
       }
     }
     Google::APIClient::ClientSecrets.new(secret)

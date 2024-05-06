@@ -42,7 +42,7 @@ class User::SignInWithGoogle < Solid::Process
   def create_or_update_token(user:, access_token:, expires_at:, refresh_token:, **)
     all_tokens_from_user = deps.token_repository.where(user_id: user.id)
     token_record = all_tokens_from_user.find_or_initialize_by(
-      provider: 'google'
+      provider: "google"
     )
 
     token_record.access_token = access_token

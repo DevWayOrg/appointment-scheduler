@@ -24,7 +24,7 @@ gem "turbo-rails"
 gem "stimulus-rails"
 
 # Write business that scales [https://github.com/solid-process/solid-process]
-gem 'solid-process'
+gem "solid-process"
 
 # Bundle and process CSS [https://github.com/rails/cssbundling-rails]
 gem "cssbundling-rails"
@@ -32,13 +32,13 @@ gem "cssbundling-rails"
 # Use Redis adapter to run Action Cable in production
 gem "redis", ">= 4.0.1"
 
-gem 'omniauth-google-oauth2'
-gem 'omniauth-rails_csrf_protection'
+gem "omniauth-google-oauth2"
+gem "omniauth-rails_csrf_protection"
 
-gem 'solid_queue'
+gem "solid_queue"
 gem "mission_control-jobs"
 
-gem 'google-api-client', require: 'google/apis/calendar_v3'
+gem "google-api-client", require: "google/apis/calendar_v3"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -64,6 +64,7 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 
+  gem "rubocop-rails-omakase", require: false
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 

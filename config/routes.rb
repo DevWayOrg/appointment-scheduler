@@ -3,19 +3,19 @@ Rails.application.routes.draw do
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get 'up' => 'rails/health#show', as: :rails_health_check
+  get "up" => "rails/health#show", as: :rails_health_check
 
-  get 'register', to: 'sessions#new', as: 'register'
+  get "register", to: "sessions#new", as: "register"
 
-  root 'sessions#new'
+  root "sessions#new"
 
-  get 'dashboard', to: 'dashboard#index', as: 'dashboard'
+  get "dashboard", to: "dashboard#index", as: "dashboard"
 
-  get '/auth/:provider/callback', to: 'sessions#create', as: 'auth_callback'
+  get "/auth/:provider/callback", to: "sessions#create", as: "auth_callback"
 
   resources :appointments, only: %i[create]
 
-  mount MissionControl::Jobs::Engine, at: '/jobs' if Rails.env.development?
+  mount MissionControl::Jobs::Engine, at: "/jobs" if Rails.env.development?
 
   # Defines the root path route ("/")
   # root "posts#index"
