@@ -3,7 +3,7 @@ module Appointment
     def perform(appointment_id)
       appointment = Repository.find_by(id: appointment_id)
 
-      token = Token::Repository.fetch_by(provider: 'google', user_id: appointment.user_id)
+      token = Token::Repository.fetch_by(provider: "google", user_id: appointment.user_id)
 
 
       service = Google::Apis::CalendarV3::CalendarService.new
@@ -13,17 +13,15 @@ module Appointment
 
       if token.expired?
         new_access_token = service.authorization.refresh!
-        token.access_token = new_access_token['access_token']
+        token.access_token = new_access_token["access_token"]
 
         now = Time.zone.now.to_i
-        token.expires_at = new_access_token['expires_in'].to_i + now
+        token.expires_at = new_access_token["expires_in"].to_i + now
 
         Token::Repository.upsert(token.to_h)
       end
 
-      service.insert_event('primary', event(appointment:))
-
-
+      service.insert_event("primary", event(appointment:))
     end
 
     private
@@ -35,11 +33,11 @@ module Appointment
         description: appointment.reason,
         start: Google::Apis::CalendarV3::EventDateTime.new(
           date_time: appointment.date.to_datetime.rfc3339,
-          time_zone: 'America/Sao_Paulo'
+          time_zone: "America/Sao_Paulo"
         ),
         end: Google::Apis::CalendarV3::EventDateTime.new(
           date_time: (appointment.date + 1.hour).to_datetime.rfc3339,
-          time_zone: 'America/Sao_Paulo'
+          time_zone: "America/Sao_Paulo"
         )
       )
 

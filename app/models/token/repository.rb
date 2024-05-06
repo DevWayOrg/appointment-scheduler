@@ -1,5 +1,5 @@
 class Token::Repository < ApplicationRecord
-self.table_name = 'tokens'
+self.table_name = "tokens"
 
   def self.fetch_by(**kwargs)
     token_record = find_by(**kwargs)

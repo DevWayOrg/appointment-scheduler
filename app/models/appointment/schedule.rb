@@ -31,14 +31,14 @@ module Appointment
 
     def check_if_appointment_is_more_or_equal_than_now(date:, time:, **)
       if date.to_date < deps.today.to_date
-        input.errors.add(:date, message: 'must be greater than or equal to today')
+        input.errors.add(:date, message: "must be greater than or equal to today")
         return Failure(:invalid_input, input:)
       end
 
       datetime = DateTime.new(date.year, date.month, date.day, time.hour, time.min, 0, Time.zone.formatted_offset)
 
       if before_or_now?(datetime:)
-        input.errors.add(:time, message: 'must be greater than now')
+        input.errors.add(:time, message: "must be greater than now")
         return Failure(:invalid_input, input:)
       end
 
@@ -68,7 +68,7 @@ module Appointment
       Continue(appointment:, **)
     end
 
-    def send_an_appointment_to_google_calendar(appointment:,**)
+    def send_an_appointment_to_google_calendar(appointment:, **)
       deps.google_calendar_worker.perform_later(appointment)
       Success(:scheduled_appointment, appointment:)
     end

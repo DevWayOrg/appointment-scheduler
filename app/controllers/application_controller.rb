@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   def authenticate_user!
     return if user_signed_in?
 
-    redirect_to root_path, error: 'You must be signed in to access this page'
+    redirect_to root_path, error: "You must be signed in to access this page"
   end
 
   def sign_in(user)

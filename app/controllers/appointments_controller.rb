@@ -5,10 +5,10 @@ class AppointmentsController < ApplicationController
 
     case Appointment::Schedule.call(appointment_params)
     in Solid::Success(appointment: _)
-      flash[:success] = 'Appointment scheduled successfully'
+      flash[:success] = "Appointment scheduled successfully"
       redirect_to dashboard_path
     in Solid::Failure(input:)
-      render 'dashboard/index', locals: { appointment: input }, status: :unprocessable_entity
+      render "dashboard/index", locals: { appointment: input }, status: :unprocessable_entity
     end
   end
 end
