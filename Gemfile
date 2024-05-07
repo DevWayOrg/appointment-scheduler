@@ -67,6 +67,7 @@ group :development do
   gem "rubocop-rails-omakase", require: false
 
   gem "brakeman"
+  gem "bundler-audit"
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 
