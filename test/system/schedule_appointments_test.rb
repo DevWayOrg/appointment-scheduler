@@ -73,7 +73,7 @@ class ScheduleAppointmentsTest < ApplicationSystemTestCase
 
       appointment = Appointment::Repository.last
 
-    assert_equal appointment.date.strftime("%I:%M%p"),  "01:00PM"
+    assert_equal appointment.scheduled_at.strftime("%I:%M%p"),  "01:00PM"
     end
   end
 
