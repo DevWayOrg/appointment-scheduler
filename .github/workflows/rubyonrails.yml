@@ -33,6 +33,10 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
+      - name: Setup Timezone
+        uses: MathRobin/timezone-action@v1.1
+        with:
+          timezoneLinux: 'America/Sao_Paulo'
       # Add or replace database setup steps here
       - name: Set up database schema
         run: bin/rails db:schema:load
