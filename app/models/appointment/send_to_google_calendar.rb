@@ -32,11 +32,11 @@ module Appointment
         summary: appointment.name,
         description: appointment.reason,
         start: Google::Apis::CalendarV3::EventDateTime.new(
-          date_time: appointment.date.to_datetime.rfc3339,
+          date_time: appointment.scheduled_at.to_datetime.rfc3339,
           time_zone: "America/Sao_Paulo"
         ),
         end: Google::Apis::CalendarV3::EventDateTime.new(
-          date_time: (appointment.date + 1.hour).to_datetime.rfc3339,
+          date_time: (appointment.scheduled_at + 1.hour).to_datetime.rfc3339,
           time_zone: "America/Sao_Paulo"
         )
       )

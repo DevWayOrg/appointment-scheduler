@@ -62,7 +62,7 @@ module Appointment
 
     def create_an_appointment(name:, reason:, datetime:, user:, **)
       user_id = user.id
-      input = { name:, reason:, date: datetime, user_id: }
+      input = { name:, reason:, scheduled_at: datetime, user_id: }
       output = deps.repository.insert(input)
       appointment = output.rows[0][0]
       Continue(appointment:, **)
