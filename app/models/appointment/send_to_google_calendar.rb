@@ -28,7 +28,7 @@ module Appointment
 
     def event(appointment:)
       # All the events will have one hour of duration, we are using date to have the time that the event will be scheduled
-      custom_event = Google::Apis::CalendarV3::Event.new(
+      Google::Apis::CalendarV3::Event.new(
         summary: appointment.name,
         description: appointment.reason,
         start: Google::Apis::CalendarV3::EventDateTime.new(
@@ -40,8 +40,6 @@ module Appointment
           time_zone: "America/Sao_Paulo"
         )
       )
-
-      custom_event
     end
   end
 end
