@@ -1,0 +1,19 @@
+<div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6 mt-8">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">Past Appointments</h2>
+  </div>
+  <div class="space-y-4">
+    <% appointments.each do |appointment| %>
+      <div class="bg-gray-100 dark:bg-gray-800 rounded-lg p-4 flex justify-between items-center">
+        <div>
+          <h3 class="text-lg font-medium"><%= appointment.name %> - <%= appointment.reason %></h3>
+          <p class="text-gray-500 dark:text-gray-400"><%= l(appointment.scheduled_at, format: :short) %></p>
+        </div>
+        <div class="flex gap-2">
+          <a href="#" class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            View Details
+          </a>
+        </div>
+      </div>
+    <% end %>
+  </div>

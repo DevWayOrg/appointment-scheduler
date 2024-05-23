@@ -1,16 +1,19 @@
-<div class="bg-blue-500 text-white py-10">
-  <div class="container mx-auto text-center">
-    <h1 class="text-4xl font-bold">Welcome to Your Appointment Scheduler Dashboard</h1>
+<div class="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
+  <header class="flex justify-between items-center mb-8">
+    <h1 class="text-2xl font-bold">Appointment Scheduler</h1>
+    <%= link_to "Logout", session_path(current_user_id), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" %>
+  </header>
+  <!-- Dashboard Title -->
+  <div class="container mx-auto py-8">
+    <!-- Appointment Form -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6">
+        <h2 class="text-2xl font-bold mb-4">Schedule an Appointment</h3>
+        <%= render 'dashboard/form', appointment: appointment %>
+      </div>
+      <%= render 'dashboard/future_appointments', appointments: future_appointments %>
   </div>
-</div>
+  <%= render 'dashboard/past_appointments', appointments: past_appointments %>
 
-<!-- Dashboard Title -->
-<div class="container mx-auto py-8">
-  <h2 class="text-2xl font-bold mb-4">Dashboard</h2>
-
-  <!-- Appointment Form -->
-  <div class="max-w-md mx-auto bg-white rounded-lg overflow-hidden shadow-lg p-6">
-    <h3 class="text-xl font-semibold mb-4">Schedule an Appointment</h3>
-    <%= render 'dashboard/form', appointment: appointment %>
   </div>
 </div>

@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   get "register", to: "sessions#new", as: "register"
 
+  resources :sessions, only: %i[destroy]
+
   root "sessions#new"
 
   get "dashboard", to: "dashboard#index", as: "dashboard"

@@ -21,7 +21,8 @@ module Appointment
         Token::Repository.upsert(token.to_h)
       end
 
-      service.insert_event("primary", event(appointment:))
+      result = service.insert_event("primary", event(appointment:))
+      appointment.update(google_calendar_id: result.id, scheduled_link: result.html_link)
     end
 
     private
