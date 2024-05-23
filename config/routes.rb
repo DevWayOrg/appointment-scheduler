@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   get "/auth/:provider/callback", to: "sessions#create", as: "auth_callback"
 
-  resources :appointments, only: %i[create]
+  resources :appointments, only: %i[create destroy]
 
   mount MissionControl::Jobs::Engine, at: "/jobs" if Rails.env.development?
 
